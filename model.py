@@ -1,5 +1,4 @@
 import os
-import requests
 from ultralytics import YOLO
 import cloudinary
 import cloudinary.uploader
@@ -23,11 +22,11 @@ def predict(image_url, conf):
     print("Finding potholes...")
     model = YOLO("best.pt")
 
-    img_reponse = requests.get(image_url)
+    # img_reponse = requests.get(image_url)
     # with open("input_img.jpg", 'wb') as f:
     #     f.write(img_reponse.content)
 
-    _ = model.predict(source=img_reponse.content, conf=conf, save=True)
+    _ = model.predict(source=image_url, conf=conf, save=True)
 
     print("Uploading image to cloudinary...")
     response = cloudinary.uploader.upload("runs/detect/predict/input_img.jpg")
