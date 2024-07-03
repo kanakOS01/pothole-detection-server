@@ -13,6 +13,7 @@ cloudinary.config(
 
 def predict(image_url, conf):
     try:
+        os.remove("input_img.jpg")
         os.remove("runs/detect/predict/input_img.jpg")
         os.rmdir("runs/detect/predict")
         print("Old image removed")
