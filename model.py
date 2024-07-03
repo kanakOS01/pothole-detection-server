@@ -1,5 +1,7 @@
+import shutil
 import os
 from ultralytics import YOLO
+import requests
 import cloudinary
 import cloudinary.uploader
 
@@ -12,21 +14,27 @@ cloudinary.config(
 
 def predict(image_url, conf):
     try:
-        # os.remove("input_img.jpg")
-        os.remove("runs/detect/predict/input_img.jpg")
-        os.rmdir("runs/detect/predict")
-        print("Old image removed")
+        os.remove("input_img.jpg")
+        print("Old input image removed")
     except Exception:
-        print("No old image found")
+        print("No old input image found")
+
+    try:
+        # os.remove("runs/detect/predict/input_img.jpg")
+        # os.rmdir("runs/detect/predict")
+        shutil.rmtree("runs/detect/predict/")
+        print("Old output image removed")
+    except Exception:
+        print("No old output image found")
 
     print("Finding potholes...")
     model = YOLO("best.pt")
 
-    # img_reponse = requests.get(image_url)
-    # with open("input_img.jpg", 'wb') as f:
-    #     f.write(img_reponse.content)
+    img_reponse = requests.get(image_url)
+    with open("input_img.jpg", 'wb') as f:
+        f.write(img_reponse.content)
 
-    _ = model.predict(source=image_url, conf=conf, save=True)
+    model.predict(source='input_img.jpg', conf=conf, save=True)
 
     print("Uploading image to cloudinary...")
     response = cloudinary.uploader.upload("runs/detect/predict/input_img.jpg")
