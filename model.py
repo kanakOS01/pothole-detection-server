@@ -13,7 +13,7 @@ cloudinary.config(
 
 def predict(image_url, conf):
     try:
-        os.remove("input_img.jpg")
+        # os.remove("input_img.jpg")
         os.remove("runs/detect/predict/input_img.jpg")
         os.rmdir("runs/detect/predict")
         print("Old image removed")
@@ -24,10 +24,10 @@ def predict(image_url, conf):
     model = YOLO("best.pt")
 
     img_reponse = requests.get(image_url)
-    with open("input_img.jpg", 'wb') as f:
-        f.write(img_reponse.content)
+    # with open("input_img.jpg", 'wb') as f:
+    #     f.write(img_reponse.content)
 
-    _ = model.predict(source='input_img.jpg', conf=conf, save=True)
+    _ = model.predict(source=img_reponse.content, conf=conf, save=True)
 
     print("Uploading image to cloudinary...")
     response = cloudinary.uploader.upload("runs/detect/predict/input_img.jpg")
