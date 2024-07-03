@@ -15,6 +15,7 @@ def detect_pothole():
     data = request.json
     image_url = data['image_url']
     confidence = data['confidence']
+    confidence = confidence / 100
 
     print(f"Image URL: {image_url}")
     print(F"Confidence: {confidence}")

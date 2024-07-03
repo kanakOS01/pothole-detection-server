@@ -1,2 +1,5 @@
 flask
 flask-cors
+requests
+cloudinary
+ultralytics
