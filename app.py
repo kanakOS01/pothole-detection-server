@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 from flask import request
 import model
@@ -34,6 +34,9 @@ def detect_pothole():
     
     return response
 
+@app.route('/map')
+def get_map():
+    return send_file("map_templates/map.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
