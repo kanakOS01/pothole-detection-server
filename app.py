@@ -1,3 +1,4 @@
+from pymongo import MongoClient
 from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 from flask import request
@@ -33,6 +34,17 @@ def detect_pothole():
     response.headers.add("Content-Type", "application/json")
     
     return response
+
+def add_pothole_to_db(latitude, longitude, image_url):
+    conn = MongoClient('localhost', 27017)
+    db = conn.pothole_detection
+    collection = db.potholes
+    collection.insert_one({
+        'latitude': latitude,
+        'longitude': longitude,
+        'image_url': image_url
+    })
+
 
 @app.route('/map')
 def get_map():
