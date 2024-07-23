@@ -6,3 +6,4 @@ cloudinary
 ultralytics
 python-dotenv
 folium
+pymongo
